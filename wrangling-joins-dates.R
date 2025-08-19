@@ -120,3 +120,76 @@ hour(time)
 
 
 Sys.time #get current time
+
+#Lubridate within a dataframe
+urchin_counts <- tribble(
+  ~date, ~species, ~size_mm,
+  "10/3/2020", "purple", 55,
+  "10/4/2020", "red", 48,
+  "11/17/2020", "red", 67
+)
+
+#DATE PIECES AS NEW COLUMNS
+urchin_counts_ymd <- urchin_counts %>% 
+  mutate(date = lubridate::mdy(date)) %>% 
+  mutate(year = year(date),
+         month = month(date),
+         day = day(date))
+    # And then we could use group_by() to find different summary values by group, for example. 
+
+#Find the duration of time 
+day_1 <- lubridate::ymd("2020-01-06")
+day_2 <- lubridate::ymd("2020-05-18")
+day_3 <- lubridate::ymd("2020-05-19")
+
+  # Create a time interval
+time_interval <- interval(day_1, day_2)
+
+  # Check the length in weeks
+time_length(time_interval, "week")
+
+  # Check the length in years
+time_length(time_interval, "year")
+
+# Use str_detect() to detect a string pattern
+# Returns TRUE or FALSE based on whether the pattern is or is not detected.
+
+my_string <- "Teddy loves eating salmon and socks"
+
+my_string %>% 
+  stringr::str_detect('love')
+
+my_string %>% 
+  stringr::str_detect('pup')
+
+my_string <- c("burrito", "fish taco", "Taco salad")
+
+# Does the vector element contain the pattern "fish"?
+my_string %>% stringr::str_detect("fish")
+
+# powerful in combination with dplyr functions
+
+starwars %>% 
+  filter(stringr::str_detect(name, 'Skywalker'))
+
+firewalkers <- starwars %>% 
+  mutate(name = stringr::str_replace(name, pattern = "Sky", replacement = "Fire"))
+
+head(firewalkers)
+
+#cleaning up white space
+feedback <- c("I ate  some  nachos", "Wednesday Morning   ")
+    #remove the leading, trailing and duplicate spaces
+stringr::str_squish(feedback)
+
+    #remove just leading and trailing spaces
+stringr::str_trim(feedback)
+
+#Convert cases
+stringr::str_to_lower(feedback) #janitor::clean_names() alternative
+stringr::str_to_upper(feedback)
+stringr::str_to_sentence(feedback)
+stringr::str_to_title(feedback)
+
+#Count the number of matches in a string
+stringr::str_count(feedback, pattern = 'nachos')
