@@ -82,3 +82,41 @@ animals %>%
 
 anti_join_example <- anti_join(animals, sites)
 
+#Lubridate practice
+my_date <- "03-12-1998"
+lubridate::mdy(my_date)
+  #"1998-03-12"
+
+#new format
+my_date <- "08-Jun-1974"
+lubridate::dmy(my_date)
+  #"1974-06-08"
+
+#different format
+my_date <- "19160518"
+lubridate::ymd(my_date)
+  #1916-05-18"
+
+#Incorrect method
+lubridate::mdy("1942-08-30")
+  #Warning message:
+  #All formats failed to parse. No formats found.
+
+#date-times
+library(lubridate)
+time <- "2020-08-12 11:18"
+time <- ymd_hm(time)
+  #"2020-08-12 11:18:00 UTC"
+
+ #convert to PDT
+with_tz(time, tz = "America/Los_Angeles")
+"2020-08-12 04:18:00 PDT"
+
+#extract info from dates
+week(time)
+year(time)
+day(time)
+hour(time)
+
+
+Sys.time #get current time
